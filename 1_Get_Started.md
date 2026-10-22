@@ -26,11 +26,11 @@ Makes Deployment and Development efficient.
 
 
 ### Architecture of Docker
-![alt text](image.png)
+![alt text](Assets/image.png)
 
 #### Use Case 1 : Multiple Apps
 Multiple Containers can also be run, in isolated environment. Means app1 don't know any thing about app2.
-![alt text](image-1.png)
+![alt text](Assets/image-1.png)
 
 #### Use Case 2 : Same app of different version
 **Approach 1**: Use two different virtual machine
@@ -38,7 +38,7 @@ Multiple Containers can also be run, in isolated environment. Means app1 don't k
 
 **Approach 2**: Using Docker
 
-![alt text](image-2.png)
+![alt text](Assets/image-2.png)
 <br>
 App1 - using Node(13 version)
 <br>
@@ -54,7 +54,7 @@ App2 - using Node(14 version)
 
 
 ### Flow and Components of Docker
-![alt text](image-3.png)
+![alt text](Assets/image-3.png)
 
 
 #### Dockerfile
@@ -76,5 +76,53 @@ Docker Hub is a cloud-based registry where Docker images are stored, shared, and
 
 
 
-### Intallation
+### Creating Docker File
+- First we need the base : in our case its (node.js) `FROM <base>:<baseVersion>(optional)`
+- Create Working directory in Container (currently empty container) `WORKDIR /myapp`
+- Copy the file to the container WorkDir to use `COPY <Source : File/Folders> <Destination>
+- Run the commands `RUN <commands>`
+    - RUN commands will be used while creating the image (docker image)
+- Expose is used to specify the port need to run the iamge on
+- CMD : array of command word, to run the command after the image is start (running)
+    - `CMD ["command:part1", "command:part2"]`
+```DockerFile
+FROM node:20
+WORKDIR /myapp
+COPY . .
+RUN npm install
+EXPOSE 3000
+CMD ["npm", "run", "dev"]
+```
+
+**Create and Docker Image**
+<br>
+```bash
+# Create Image
+docker build /path/to/Dockerfile
+
+# Run Image
+docker run <Image-ID>
+```
+
+**Need to change something to use the vite on local from docker container**
+```json
+// In package.json
+{
+    ...,
+    "scripts": {
+    "dev": "vite --host"
+    }
+}
+```
+
+
+
+
+
+## Commands
+1) Build Image : `docker build /path/to/Dockerfile`
+2) Show Images : `docker image ls`
+3) Show Running Containers (Process State) : `docker ps`
+4) Stop Container : `docker stop <container-name-ps>`
+5) Build Image with tag : `docker build -t <tagname> /path/to/Dockerfile`
 
