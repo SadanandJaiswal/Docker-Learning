@@ -136,6 +136,36 @@ detach mode docker run : `docker run -d -p 3000:3000 testapp:v3`
 
 
 ### Pre-Defined Docker Images
+Image avaialble on docker hub, which can be downloaded and used without creating a image from scratch.
+
+### Interative Mode (Container)
+If we have a python program (takes user input): and we build docker iamge of that
+```Dockerfile
+FROM python
+WORKDIR /myapp
+COPY ./myapp.py .
+CMD ["python","myapp.py"]
+```
+
+to run this in interactive mode, such that we can provide the input to the program when run the docker image.
+<br>
+Command : `docker run -it image-id`, -it : interactive terminal
+
+
+### DOcker Login
+- Connect terminal to docker hub
+- `docker login`
+- `docker login -u <username>`
+- enter username and password
+
+
+### Sharing Docker Image
+- Create Dockerfile 
+- Create Image 
+- Upload / push iamge to <b>Docker Hub</b> or <b>Private Registry</b>
+- Create Repository (Docker Hub) 
+- Create image with same name as repo : `<dockerUsername>/<reponame>`
+- Push the image to docker hub
 
 
 
@@ -152,10 +182,14 @@ detach mode docker run : `docker run -d -p 3000:3000 testapp:v3`
 10) Remove Image history : `docker rm <image-name> <image-name2>` or `docker rm <container-id>` 
 11) Remove Image History force : `docker rm -f <container-id1> <container-id2>`
 12) List Container ID in history  : `docker ps -aq`
-13) Remove all Image using nested docker command : `docker rm -f $(docker ps -aq)`
+13) Remove all container using nested docker command : `docker rm -f $(docker ps -aq)`
 14) Run Image and delete from History after stop : `docker run --rm <image-id>` or `docker run -d --rm <image-id>` or `docker run -d --rm -p <local-port>:<container-port> <image-id>`
 15) Custom Container Name (before port) : `docker run -d --rm --name "<customName>" -p 3002:5173 <repository:tag>`
 16) Image History : `docker images -a`
 17) Image History (only image-id) : `docker images -aq`
 19) Remove Image (multiple) : `docker rmi <image-id1> <image-id2> <repository:tag1>` <br>
 **note** : `rm` to remove container <b>AND</b> `rmi` to remove image
+20) Pull Image from Docker Hub : `docker pull <image:version>` if version is not provided, by default latest version of image is pulled
+21) Run Container with Interactive mode : `docker run -it image-id`
+22) Push Image to Docker hub : `docker push <username>/<reponame>:tagname`
+23) Rename image (locally) : `docker tag <oldimagename:version> <newimagename:version>`
