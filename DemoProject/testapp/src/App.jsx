@@ -8,21 +8,16 @@ function App() {
 
   return (
     <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+      <h1>Saddy + Sammy</h1>
+      <div className="card">
+        <h2>I Love you so so so so so much my darling Simran</h2>
       </div>
-      <h1>Vite + React</h1>
       <div className="card">
         <button onClick={() => setCount((count) => count + 1)}>
-          Like is {count}
+          Comming for Marriage {count}
         </button>
         <p>
-          Hey, world! Welcome to the Saddy's Paradise.
+          Hey, world! Welcome to the Sammy-Saddy Paradise.
         </p>
       </div>
     </>

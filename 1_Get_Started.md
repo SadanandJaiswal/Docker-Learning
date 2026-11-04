@@ -115,14 +115,47 @@ docker run <Image-ID>
 }
 ```
 
+**Note**: When you are running the application on browser on local machine then you can easily access the project with its port. But when application is running in container then its isolated environment, to access the project on browser you need port forwarding.
+
+
+### Running Docker in Detach Mode
+**Detach Mode** : When we run image as container on terminal, our terminal got stuck and we are not able to perform any operation on it and need to user another terminal or stop it. That is running in foreground.
+
+detach mode docker run : `docker run -d -p 3000:3000 testapp:v3`
+
+
+### Image management
+- We can give tag to our image to use in place of <image-id>, using `-t <name:version>`
+- We can remoe image using `rmi <image-id>`
+- IF we create image of same content with different tags. Image ID is still same untill content is different
+
+
+### Multiple Version Image Running
+- Version 1 : `docker run -d --rm -p 3001:3000 webapp:v1`
+- Version 2 : `docker run -d --rm -p 3002:3000 webapp:v2`
+
+
+### Pre-Defined Docker Images
 
 
 
-
-## Commands
-1) Build Image : `docker build /path/to/Dockerfile`
+## Commandsgit git
+1) Build Image : `docker build /path/to/Dockerfile` <b>OR</b> `docker build -f /path/to/Dockerfile /path/to/`
 2) Show Images : `docker image ls`
 3) Show Running Containers (Process State) : `docker ps`
 4) Stop Container : `docker stop <container-name-ps>`
-5) Build Image with tag : `docker build -t <tagname> /path/to/Dockerfile`
-
+5) Build Image with tag : `docker build -t <tagname> /path/to/Dockerfile`docdoododod
+6) Start Container (Run Docker Image) : `docker run <image-id>` or `docker run <tag-name>`
+7) Start Container with Port Forwarding : `docker run -p <local-port>:<container-port> <image-id>`
+8) Run in Detach Mode : `docker run -d <image-id>` or `docker run -d -p <local-port>:<container-port> <image-id>`
+9) Docker Image Running History : `docker ps -a`
+10) Remove Image history : `docker rm <image-name> <image-name2>` or `docker rm <container-id>` 
+11) Remove Image History force : `docker rm -f <container-id1> <container-id2>`
+12) List Container ID in history  : `docker ps -aq`
+13) Remove all Image using nested docker command : `docker rm -f $(docker ps -aq)`
+14) Run Image and delete from History after stop : `docker run --rm <image-id>` or `docker run -d --rm <image-id>` or `docker run -d --rm -p <local-port>:<container-port> <image-id>`
+15) Custom Container Name (before port) : `docker run -d --rm --name "<customName>" -p 3002:5173 <repository:tag>`
+16) Image History : `docker images -a`
+17) Image History (only image-id) : `docker images -aq`
+19) Remove Image (multiple) : `docker rmi <image-id1> <image-id2> <repository:tag1>` <br>
+**note** : `rm` to remove container <b>AND</b> `rmi` to remove image
