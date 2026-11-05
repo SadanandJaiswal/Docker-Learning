@@ -7,6 +7,8 @@ Make development and deployment efficient.
 
 
 
+<hr>
+
 ### Why we need docker
 **Problem** : You developed an application, and given it to the tester to test. It was working fine on your machine but throw error / not working on tester machine. There could be several reason such as OS, different versions of libraries/dependencies, external dependenciees. But it was working fine on your machine.
 
@@ -16,6 +18,8 @@ Developer make package of all the neccessary things to run the application (depe
 
 
 
+<hr>
+
 ### Container
 A way to package an application with all neccessary dependencies and configuration.
 <br>
@@ -24,6 +28,8 @@ It can be easily shared.
 Makes Deployment and Development efficient.
 
 
+
+<hr>
 
 ### Architecture of Docker
 ![alt text](Assets/image.png)
@@ -53,6 +59,8 @@ App2 - using Node(14 version)
 | Encapsulate apps instead of whole machine | Encapsulate whole machine |
 
 
+<hr>
+
 ### Flow and Components of Docker
 ![alt text](Assets/image-3.png)
 
@@ -76,6 +84,8 @@ Docker Hub is a cloud-based registry where Docker images are stored, shared, and
 
 
 
+<hr>
+
 ### Creating Docker File
 - First we need the base : in our case its (node.js) `FROM <base>:<baseVersion>(optional)`
 - Create Working directory in Container (currently empty container) `WORKDIR /myapp`
@@ -94,7 +104,7 @@ EXPOSE 3000
 CMD ["npm", "run", "dev"]
 ```
 
-**Create and Docker Image**
+**Create and Run Docker Image**
 <br>
 ```bash
 # Create Image
@@ -118,11 +128,15 @@ docker run <Image-ID>
 **Note**: When you are running the application on browser on local machine then you can easily access the project with its port. But when application is running in container then its isolated environment, to access the project on browser you need port forwarding.
 
 
+<hr>
+
 ### Running Docker in Detach Mode
 **Detach Mode** : When we run image as container on terminal, our terminal got stuck and we are not able to perform any operation on it and need to user another terminal or stop it. That is running in foreground.
 
 detach mode docker run : `docker run -d -p 3000:3000 testapp:v3`
 
+
+<hr>
 
 ### Image management
 - We can give tag to our image to use in place of <image-id>, using `-t <name:version>`
@@ -130,13 +144,19 @@ detach mode docker run : `docker run -d -p 3000:3000 testapp:v3`
 - IF we create image of same content with different tags. Image ID is still same untill content is different
 
 
+<hr>
+
 ### Multiple Version Image Running
 - Version 1 : `docker run -d --rm -p 3001:3000 webapp:v1`
 - Version 2 : `docker run -d --rm -p 3002:3000 webapp:v2`
 
 
+<hr>
+
 ### Pre-Defined Docker Images
 Image avaialble on docker hub, which can be downloaded and used without creating a image from scratch.
+
+<hr>
 
 ### Interative Mode (Container)
 If we have a python program (takes user input): and we build docker iamge of that
@@ -144,6 +164,7 @@ If we have a python program (takes user input): and we build docker iamge of tha
 FROM python
 WORKDIR /myapp
 COPY ./myapp.py .
+COPY ./server.txt .
 CMD ["python","myapp.py"]
 ```
 
@@ -152,12 +173,16 @@ to run this in interactive mode, such that we can provide the input to the progr
 Command : `docker run -it image-id`, -it : interactive terminal
 
 
+<hr>
+
 ### DOcker Login
 - Connect terminal to docker hub
 - `docker login`
 - `docker login -u <username>`
 - enter username and password
 
+
+<hr>
 
 ### Sharing Docker Image
 - Create Dockerfile 
@@ -168,8 +193,36 @@ Command : `docker run -it image-id`, -it : interactive terminal
 - Push the image to docker hub
 
 
+<hr>
 
-## Commandsgit git
+### Docker Volumes
+A docker volumne is a way to store data permanently outside the docker, so that your data is not lost when the container is stopped, deleted or recreated. 
+
+**note** : These data are accessible across containers
+
+**Use Case** : You have a program that create a file and store some data to it, but when you run the image in docker a file is created and removed as soon as the container is stopped, to prevent this we will be using docker volumnes that store the file locally.
+
+`docker run -d -it --rm -v myvolume:/myapp demoapp:v1`
+
+![alt text](Assets/dockerVolumne.png)
+
+
+<hr>
+
+### Bind Mount
+Bind Mount is a way to connect a file or directory from your local machine to a container so that both can access the same file
+
+**Use Case** : You have create a docker image of your code, in development phase you are making change to the code, so you won't be creating image after every change. You bind mount your project directory with directory in container and at last you can create a final image of your project.
+
+`docker run -v D:\College Study Folder\Docker\DemoProject\testapp:/myapp --rm myimage`
+
+**note** : This will not create a docker volume, this just mount your local directory/file
+
+
+
+<br>
+
+## Docker Commands
 1) Build Image : `docker build /path/to/Dockerfile` <b>OR</b> `docker build -f /path/to/Dockerfile /path/to/`
 2) Show Images : `docker image ls`
 3) Show Running Containers (Process State) : `docker ps`
@@ -193,3 +246,9 @@ Command : `docker run -it image-id`, -it : interactive terminal
 21) Run Container with Interactive mode : `docker run -it image-id`
 22) Push Image to Docker hub : `docker push <username>/<reponame>:tagname`
 23) Rename image (locally) : `docker tag <oldimagename:version> <newimagename:version>`
+24) Run docker with volumne : `docker run -it -v <volumen-name>:</workdir-path> <iamge-id>`
+25) Create docker volume : `docker volume create <volumen-name>`
+26) Inspect docker volume : `docker volume inspect <volumne-name>`
+27) Bind Mount : `docker run -v <absolute-path-director or fiel>:<path-in-container> <image-id>`
+
+**note** : order of -d, -it, --rm, etc does not matter
